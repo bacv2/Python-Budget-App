@@ -1,0 +1,26 @@
+class Budget:
+
+#Budget history: income, category, income date, expense date, expense_category, expense_date
+    budget_history = {
+        "Income": [], "Income Source": [], "Income Date": [], "Expense": [], "Expense Category": [], "Expense Date": []
+    }
+
+#balance
+    def __init__(self, balance):
+        self.balance = balance
+
+    def add_balance(self, amount):
+        self.balance += amount
+        self.budget_history["Income"].append(self.balance)
+
+    def add_expense(self, amount, category, date):
+        self.balance -= amount
+        self.budget_history["Expense"].append(amount)
+        self.budget_history["Expense Category"].append(category)
+        self.budget_history["Expense Date"].append(date)
+
+    def get_remaining_balance(self):
+        return self.balance
+
+    def expense_history(self):
+        return self.budget_history["Expense"], self.budget_history["Expense Category"], self.budget_history["Expense Date"]
