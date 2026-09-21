@@ -1,17 +1,15 @@
 class Budget:
-
-#Budget history: income, category, income date, expense date, expense_category, expense_date
     budget_history = {
         "Income": [], "Income Source": [], "Income Date": [], "Expense": [], "Expense Category": [], "Expense Date": []
     }
-
-#balance
     def __init__(self, balance):
         self.balance = balance
 
-    def add_balance(self, amount):
+    def add_balance(self, amount, source = "", date = ""):
         self.balance += amount
         self.budget_history["Income"].append(self.balance)
+        self.budget_history["Income Source"].append(source)
+        self.budget_history["Income Date"].append(date)
 
     def add_expense(self, amount, category, date):
         self.balance -= amount
@@ -24,3 +22,11 @@ class Budget:
 
     def expense_history(self):
         return self.budget_history["Expense"], self.budget_history["Expense Category"], self.budget_history["Expense Date"]
+
+    def income_history(self):
+        return self.budget_history["Income"], self.budget_history["Income Source"], self.budget_history["Income Date"]
+
+user = Budget(0)
+
+for i in user.income_history():
+    print(",".join(map(str, i)))
