@@ -1,32 +1,49 @@
+import datetime
+
 class Budget:
-    budget_history = {
-        "Income": [], "Income Source": [], "Income Date": [], "Expense": [], "Expense Category": [], "Expense Date": []
-    }
-    def __init__(self, balance):
+    def __init__(self, balance=0 ):
         self.balance = balance
+        self.transactions = []
 
-    def add_balance(self, amount, source = "", date = ""):
+    @staticmethod
+    def _now():
+        return datetime.datetime.now()
+
+    @staticmethod
+    def _dfmt(date):
+        return date.strftime("%I:%M:%S %p %m-%d-%Y")
+    
+    def add_balance(self, amount, source = "Unspecified"):
         self.balance += amount
-        self.budget_history["Income"].append(self.balance)
-        self.budget_history["Income Source"].append(source)
-        self.budget_history["Income Date"].append(date)
+        self.transactions.append({
+            "type": "income",
+            "amount": amount,
+            "source": source,
+            "date": self._now(),
+        })
 
-    def add_expense(self, amount, category, date):
+    def add_expense(self, amount, category):
         self.balance -= amount
-        self.budget_history["Expense"].append(amount)
-        self.budget_history["Expense Category"].append(category)
-        self.budget_history["Expense Date"].append(date)
+        self.transactions.append({
+            "type": "expense",
+            "amount": amount,
+            "category": category,
+            "date": self._now()
+        })
 
     def get_remaining_balance(self):
         return self.balance
 
     def expense_history(self):
-        return self.budget_history["Expense"], self.budget_history["Expense Category"], self.budget_history["Expense Date"]
+        return [f'Expense, {t["category"]}, {t["amount"]}, {self._dfmt(t["date"])}' for t in self.transactions if t["type"] == "expense"] 
 
     def income_history(self):
-        return self.budget_history["Income"], self.budget_history["Income Source"], self.budget_history["Income Date"]
+        return [f'Income, {t["amount"]}, {t["source"]}, {self._dfmt(t["date"])}' for t in self.transactions if t["type"] == "income"] 
 
 user = Budget(0)
+user.add_balance(1000, "Salary")
+user.add_expense(200, "Groceries")
 
-for i in user.income_history():
-    print(",".join(map(str, i)))
+print(user.get_remaining_balance())
+print(user.income_history())
+print(user.expense_history())
