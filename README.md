@@ -1,6 +1,6 @@
 # BudgetApp
 
-My first Python app. It's a backend script that logs income, tracks expenses, and timestamps transactions. 
+My first full-scale Python app. It's a backend script that logs income, tracks expenses, and timestamps transactions. 
 
 ### Future Plans
 * Add data graphs/charts
