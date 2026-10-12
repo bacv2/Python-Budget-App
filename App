@@ -23,7 +23,7 @@ class Budget:
         })
 
     def add_expense(self, amount, category):
-        self.balance -= amount
+        self.balance -= abs(amount)
         self.transactions.append({
             "type": "expense",
             "amount": amount,
